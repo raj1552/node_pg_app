@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Exercise tracker</h1>
+      <form action="/api/users" method="post">
+        <h3>Create a New User</h3>
+        <p><code>POST /api/users</code></p>
+        <input id="uname" type="text" name="username" placeholder="username" />
+        <input type="submit" value="Submit" />
+      </form>
+      <form action="/api/users" method="get">
+        <h3>Check Users</h3>
+        <a href="listusers.html"> <input type="button" value="List Users" /></a>
+      </form>
+      <form method="post" id="exercise-form">
+        <h3>Add exercises</h3>
+        <p><code>POST /api/users/exercises</code></p>
+        <input id="user" type="text" name="username" />
+        <input
+          id="desc"
+          type="text"
+          name="description"
+          placeholder="description*"
+        />
+        <input
+          id="dur"
+          type="text"
+          name="duration"
+          placeholder="duration* (mins.)"
+        />
+        <input
+          id="date"
+          type="text"
+          name="date"
+          placeholder="date (yyyy-mm-dd)"
+        />
+        <input type="submit" value="Submit" id="Submitted" />
+      </form>
+      <form
+        action="/api/users/:username/exercises"
+        method="get"
+        id="exercise-details"
+      >
+        <h3>Exercise Details</h3>
+        <input
+          type="text"
+          name="username"
+          id="usersname"
+          placeholder="Username"
+        />
+        <a href="showdetails.html"
+          ><input type="button" value="Show Details" id="showDetailsButton"
+        /></a>
+      </form>
+      <script>
+
+        const exerciseForm = document.getElementById("exercise-form");
+        const alertButton = document.getElementById("Submitted");
+        const showDetailsButton = document.getElementById("showDetailsButton");
+        const usersname = document.getElementById("usersname");
+        console.log(exerciseForm);
+
+        exerciseForm.addEventListener("submit", async (e) => {
+          
+          e.preventDefault();
+
+          const user = document.getElementById("user").value;
+          const desc = document.getElementById("desc").value;
+          const dur = document.getElementById("dur").value;
+          const date = document.getElementById("date").value;
+
+          try {
+            const response = await fetch(`/api/users/exercises`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username: user,
+                description: desc,
+                duration: dur,
+                date: date,
+              }),
+            });
+
+            if (response.ok) {
+              alert("Sucessfully Added");
+
+              exerciseForm.reset();
+            } else {
+              console.error(response.statusText);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        });
+
+        showDetailsButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          const username = document.getElementById("usersname").value;
+          window.location.href = `/showdetails.html?username=${username}`;
+
+          usersname.value = "";
+        });
+      </script>
+    </div>
+  </body>
+</html>
