@@ -101,7 +101,7 @@ app.post('/api/users/exercises', async (req, res) => {
                               [userID, description, duration, exerciseDate, username]
         );
         
-        res.json({});
+        res.json(exerciseResult);
       } catch (error) {
         console.log(error);
       }
@@ -121,7 +121,8 @@ app.post('/api/users/:username/exercises' , async(req , res) =>{
     if (userResult.rowCount === 0) {
       return res.status(404).json({ error: 'No Details' });
     }
-  
+    
+    res.json(userResult)
   })
 
   app.get('/api/users/:username/exercises' , async (req , res) =>{

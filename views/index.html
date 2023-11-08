@@ -18,7 +18,7 @@
         <h3>Check Users</h3>
         <a href="listusers.html"> <input type="button" value="List Users" /></a>
       </form>
-      <form method="post" id="exercise-form">
+      <form id="exercise-form">
         <h3>Add exercises</h3>
         <p><code>POST /api/users/exercises</code></p>
         <input id="user" type="text" name="username" />
@@ -67,7 +67,7 @@
         console.log(exerciseForm);
 
         exerciseForm.addEventListener("submit", async (e) => {
-          
+
           e.preventDefault();
 
           const user = document.getElementById("user").value;
